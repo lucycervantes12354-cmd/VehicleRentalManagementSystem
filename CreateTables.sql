@@ -1,64 +1,64 @@
 CREATE TABLE Branch(
-  BranchID INT PRIMARY KEY AUTO_INCREMENT,
-  BranchName VARCHAR(100),
-  Address VARCHAR(200),
-  Phone VARCHAR(15)
+  BranchID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  BranchName VARCHAR(100) NOT NULL,
+  Address VARCHAR(200) NOT NULL,
+  Phone VARCHAR(15) NOT NULL
   );
 
 CREATE TABLE VehicleType(
-  TypeID INT PRIMARY KEY AUTO_INCREMENT,
-  TypeName VARCHAR(50) 
+  TypeID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  TypeName VARCHAR(50) NOT NULL
   );
 
 CREATE TABLE Vehicle(
-  VehicleID INT PRIMARY KEY AUTO_INCREMENT,
-  LicensePlate VARCHAR(10) UNIQUE,
-  Make VARCHAR(50),
-  Model VARCHAR(50),
-  Year INT,
+  VehicleID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  LicensePlate VARCHAR(10) UNIQUE NOT NULL,
+  Make VARCHAR(50) NOT NULL,
+  Model VARCHAR(50) NOT NULL,
+  Year INT UNSIGNED NOT NULL,
   Color VARCHAR(20),
-  DailyRentalRate DECIMAL(10,2),
-  CurrentMileage INT,
-  VehicleTypeID INT,
-  RentalBranchID INT,
+  DailyRentalRate DECIMAL(10,2) UNSIGNED NOT NULL,
+  CurrentMileage INT UNSIGNED NOT NULL,
+  VehicleTypeID INT UNSIGNED NOT NULL,
+  RentalBranchID INT UNSIGNED NOT NULL,
   FOREIGN KEY (VehicleTypeID) REFERENCES VehicleType(TypeID),
   FOREIGN KEY (RentalBranchID) REFERENCES Branch(BranchID)
   );
 
 CREATE TABLE MaintenanceStaff(
-  StaffID INT PRIMARY KEY AUTO_INCREMENT,
-  Name VARCHAR(50),
-  OfficeNumber VARCHAR(10),
-  PhoneNumber VARCHAR(15),
+  StaffID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  Name VARCHAR(50) NOT NULL,
+  OfficeNumber VARCHAR(10) NOT NULL,
+  PhoneNumber VARCHAR(15) NOT NULL,
   Email VARCHAR(100),
-  BranchContactInfo INT,
+  BranchContactInfo INT UNSIGNED NOT NULL,
   FOREIGN KEY (BranchContactInfo) REFERENCES Branch(BranchID)
   );
 
 CREATE TABLE Customers(
-  CustomerID INT PRIMARY KEY AUTO_INCREMENT,
-  FirstName VARCHAR(50),
-  LastName VARCHAR(50),
-  Address VARCHAR(100),
-  PhoneNumber VARCHAR(15),
+  CustomerID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  FirstName VARCHAR(50) NOT NULL,
+  LastName VARCHAR(50) NOT NULL,
+  Address VARCHAR(100) NOT NULL,
+  PhoneNumber VARCHAR(15) NOT NULL,
   Email VARCHAR(100),
-  DriverLicenseNum VARCHAR(20) UNIQUE,
-  LicenseExpDate DATE
+  DriverLicenseNum VARCHAR(20) UNIQUE NOT NULL,
+  LicenseExpDate DATE NOT NULL
   );
 
 CREATE TABLE RentalAgreement(
-  RentalAgreementID INT PRIMARY KEY AUTO_INCREMENT,
-  CustomerID INT,
-  VehicleID INT,
-  ScheduledPickup DATETIME,
-  ScheduledReturn DATETIME,
+  RentalAgreementID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  CustomerID INT UNSIGNED NOT NULL,
+  VehicleID INT UNSIGNED NOT NULL,
+  ScheduledPickup DATETIME NOT NULL,
+  ScheduledReturn DATETIME NOT NULL, 
   ActualPickup DATETIME,
   ActualReturn DATETIME,
-  EstimatedCost DECIMAL(10,2),
-  ActualCost DECIMAL(10,2),
-  Status VARCHAR(20),
-  PickupBranchID INT,
-  ReturnBranchID INT,
+  EstimatedCost DECIMAL(10,2) UNSIGNED NOT NULL,
+  ActualCost DECIMAL(10,2) UNSIGNED,
+  Status VARCHAR(20) NOT NULL,
+  PickupBranchID INT UNSIGNED NOT NULL,
+  ReturnBranchID INT UNSIGNED NOT NULL,
   FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
   FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID),
   FOREIGN KEY (PickupBranchID) REFERENCES Branch(BranchID),
@@ -66,14 +66,14 @@ CREATE TABLE RentalAgreement(
   );
 
 CREATE TABLE MaintenanceRecords (
-  RecordID INT PRIMARY KEY AUTO_INCREMENT,
-  VehicleID INT,
-  ReportingCustomerID INT,
-  StaffID INT,
-  IssueType VARCHAR(100),
+  RecordID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  VehicleID INT UNSIGNED NOT NULL,
+  ReportingCustomerID INT UNSIGNED,
+  StaffID INT UNSIGNED NOT NULL,
+  IssueType VARCHAR(100) NOT NULL,
   Description TEXT,
-  Status VARCHAR(20),
-  DateReported DATETIME,
+  Status VARCHAR(20) NOT NULL,
+  DateReported DATETIME NOT NULL,
   DateResolved DATETIME,
   Notes TEXT,
   FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID),
